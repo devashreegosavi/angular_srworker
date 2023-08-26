@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
+import { HttpClient } from '@angular/common/http';
+
+import { Post } from './post.model';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +11,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular_srworker';
+  posts: Post[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.http
+      .get<Post[]>('https://jsonplaceholder.typicode.com/posts')
+      .subscribe(fetchedPosts => (this.posts = fetchedPosts));
+  }
 }
